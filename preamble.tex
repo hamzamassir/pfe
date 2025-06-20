@@ -1,0 +1,121 @@
+% Language and Encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Page Layout and Margins
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{tabularx}
+\usepackage{acronym}
+\usepackage{multirow}
+
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+
+% Graphics and Hyperlinks
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+% Colors
+\usepackage{xcolor}
+
+% Justify text if needed
+\usepackage{ragged2e}
+
+% Bibliography
+\usepackage{natbib}
+
+% Typography
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+
+% Dummy text package (optional)
+\usepackage{lipsum}
+\usepackage{needspace}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14.5pt}
+
+% Clear default headers and footers
+\fancyhead{}
+\fancyfoot{}
+
+% Define the header style
+\fancyhead[L]{\bfseries\thechapter. \leftmark}  % Centered header with chapter number and name
+
+% Define the footer style
+\fancyfoot[R]{\thepage}  % Right-aligned page number
+
+% Set the header line width
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlength{\headwidth}{\textwidth}
+\addtolength{\headwidth}{2\marginparsep}
+\addtolength{\headwidth}{2\marginparwidth}
+
+% For pages with chapter beginnings
+\fancypagestyle{plain}{%
+    \fancyhead{}
+    \fancyfoot[R]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% If needed, adjust the header width to match page width
+\fancyhfoffset[L,R]{0pt}  % Reset any offsets
+\setlength{\headwidth}{\paperwidth}
+\addtolength{\headwidth}{-2in}  % Adjust for standard margins
+
+
+% Font and Paragraph Settings
+\renewcommand{\normalsize}{\fontsize{12}{16}\selectfont}
+
+% Section title styles
+\titleformat{\chapter}{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% Paragraph settings
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.5em}
+
+
+\usepackage{verbatim}
+\usepackage{svg}
+
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{listings}
+\lstset{
+    language=PHP,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    morekeywords={namespace, use, class, public, protected, private, function, return, true, false, null}
+}
+
+\usepackage{float}

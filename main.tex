@@ -1,0 +1,48 @@
+\documentclass[12pt,a4paper]{report}
+
+% Load all configuration from a separate preamble file
+\input{preamble}
+\raggedbottom
+
+
+\begin{document}
+
+% Front Matter - Roman numerals
+\pagenumbering{roman}
+% \include{frontmatter/titlepage}
+\include{frontmatter/dedication}
+\include{frontmatter/acknowledgement}
+\include{frontmatter/abstract}
+\include{frontmatter/summary}
+
+\tableofcontents
+\thispagestyle{empty}
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\thispagestyle{empty}
+% \listoftables
+% \addcontentsline{toc}{chapter}{List of Tables}
+% \thispagestyle{empty}
+\include{frontmatter/acronyms}
+\addcontentsline{toc}{chapter}{List of Acronyms}
+\thispagestyle{empty}
+\clearpage
+
+% Main Matter - Arabic numerals (restart from 1)
+\pagenumbering{arabic}
+\include{sections/Introduction/introduction}
+\include{sections/Chapter1-General_Context/chapter1_context_company}
+\include{sections/Chapter2-Main_Project_Design/chapter2_main_project_design}
+\include{sections/Chapter3-Main_Project_Implementation/chapter3_main_project_implementation}
+\include{sections/Chapter4-Main_Project_Results/chapter4_main_project_results}
+% \include{sections/Chapter5-Side_Projects/chapter5_side_projects}
+\include{sections/Chapter6-Discussion_and_Future_Imporvements/chapter6_technical_challenges}
+\include{sections/Conclusion/conclusion}
+\include{sections/Reflection/reflection}
+\include{appendix2}
+% \include{appendix}
+% Bibliography
+\bibliographystyle{unsrtnat}  % Using unsrtnat for numerical citations
+\bibliography{bibliography.bib} 
+
+\end{document}

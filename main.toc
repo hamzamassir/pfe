@@ -1,0 +1,126 @@
+\contentsline {chapter}{Dedication}{i}{chapter*.1}%
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Acknowledgement}{ii}{chapter*.2}%
+\contentsline {chapter}{Abstract}{iii}{chapter*.3}%
+\contentsline {chapter}{Résumé}{iv}{chapter*.4}%
+\contentsline {chapter}{List of Figures}{x}{chapter*.6}%
+\contentsline {chapter}{General Introduction}{1}{chapter*.8}%
+\contentsline {chapter}{List of Acronyms}{1}{chapter*.7}%
+\contentsline {chapter}{\numberline {1}General Context of the Project}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduction}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Presentation of VOID}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Core Values}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Technical Expertise}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Company Solutions}{3}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Company Services}{4}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Clients and Projects}{4}{subsection.1.2.5}%
+\contentsline {subsection}{\numberline {1.2.6}Awards and Recognitions}{5}{subsection.1.2.6}%
+\contentsline {section}{\numberline {1.3}The Main Project}{5}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Training Phase at VOID}{6}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Problematic}{6}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Objectives}{7}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Proposed Solution}{7}{subsection.1.3.4}%
+\contentsline {section}{\numberline {1.4}Project Management Methodology}{9}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Agile Methodology}{9}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Organization and Communication Tools}{9}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Conclusion}{10}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Project Analysis and Design}{12}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{12}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Study of the Existing System}{12}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Operational Inefficiencies}{12}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Technical Limitations}{13}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Impact on Stakeholders}{13}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Specification Document}{13}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Functional Requirements}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Non-Functional Requirements}{14}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Success Criteria}{15}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}User Research and Methodology}{15}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Research Methods}{15}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}User Journey Analysis}{16}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}UML Diagrams Overview}{16}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Use Case Diagram}{16}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Sequence Diagram}{18}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Class Diagram}{20}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Project Timeline Diagrams}{22}{subsection.2.5.4}%
+\contentsline {section}{\numberline {2.6}Mockups and Wireframes}{24}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Conclusion}{25}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Main Project Implementation}{26}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{26}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Programming Languages and Frameworks}{26}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Programming Languages}{26}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Frameworks and Libraries}{26}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Database and Caching}{27}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Development Tools}{27}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Development Environment}{28}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Backend Containers}{28}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Frontend Containers}{28}{subsection.3.4.2}%
+\contentsline {subsubsection}{Widget-Based Component Binding}{29}{subsection.3.4.2}%
+\contentsline {subsubsection}{Route Translation and UUID Resolution}{29}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Secure API Proxying}{29}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Caching Architecture}{29}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}Mail Testing Infrastructure}{30}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.6}Component Development with Storybook}{30}{subsection.3.4.6}%
+\contentsline {subsection}{\numberline {3.4.7}Routing Strategy}{30}{subsection.3.4.7}%
+\contentsline {section}{\numberline {3.5}Backend Implementation}{30}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Introduction}{30}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Drupal Architecture and API Strategy}{31}{subsection.3.5.2}%
+\contentsline {subsubsection}{What is Drupal?}{31}{subsection.3.5.2}%
+\contentsline {subsubsection}{Our Use of Drupal}{31}{subsection.3.5.2}%
+\contentsline {subsubsection}{Exposing Content with JSON:API}{31}{subsection.3.5.2}%
+\contentsline {subsubsection}{Custom API Endpoints for Menus and Translations}{32}{figure.3.7}%
+\contentsline {subsubsection}{Building Website Structure with Dynamic Fields}{32}{figure.3.7}%
+\contentsline {subsection}{\numberline {3.5.3}Performance Optimization with Memcached}{33}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Email Debugging with MailHog}{34}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Widget System Architecture and Discovery Process}{34}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.6}Main Website Backend Structure}{37}{subsection.3.5.6}%
+\contentsline {subsection}{\numberline {3.5.7}Training and Resource Management Custom Modules}{37}{subsection.3.5.7}%
+\contentsline {subsubsection}{Progress Tracking with Objectives Taxonomy}{38}{subsection.3.5.7}%
+\contentsline {subsection}{\numberline {3.5.8}Security and Access Control}{40}{subsection.3.5.8}%
+\contentsline {section}{\numberline {3.6}Frontend Implementation}{40}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Decoupled Architecture and Backend Integration}{40}{subsection.3.6.1}%
+\contentsline {subsubsection}{JSON:API Integration}{41}{subsection.3.6.1}%
+\contentsline {subsubsection}{Widget-Based Content Delivery}{41}{subsection.3.6.1}%
+\contentsline {subsubsection}{Webpack Plugin Architecture}{41}{Item.15}%
+\contentsline {subsection}{\numberline {3.6.2}Routing and Path Resolution}{42}{subsection.3.6.2}%
+\contentsline {subsubsection}{Slug-Based Routing}{42}{subsection.3.6.2}%
+\contentsline {subsubsection}{API Proxy Implementation}{43}{Item.24}%
+\contentsline {subsection}{\numberline {3.6.3}Monorepo Architecture and Starter Kit Integration}{43}{subsection.3.6.3}%
+\contentsline {subsubsection}{Workspace Organization}{43}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Design System and Storybook Integration}{44}{subsection.3.6.4}%
+\contentsline {subsection}{\numberline {3.6.5}Icon System and Asset Management}{45}{subsection.3.6.5}%
+\contentsline {subsection}{\numberline {3.6.6}Custom Widgets and Modules Implementation}{45}{subsection.3.6.6}%
+\contentsline {subsection}{\numberline {3.6.7}Performance Optimization and Testing}{46}{subsection.3.6.7}%
+\contentsline {subsubsection}{Redis Integration for Performance Optimization}{47}{subsection.3.6.7}%
+\contentsline {subsubsection}{Offline Mode Implementation}{48}{figure.3.16}%
+\contentsline {section}{\numberline {3.7}DevOps and Deployment Strategy}{49}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}EasyPanel Infrastructure}{49}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Continuous Integration and Deployment Pipeline (CI/CD)}{50}{subsection.3.7.2}%
+\contentsline {section}{\numberline {3.8}Conclusion}{53}{section.3.8}%
+\contentsline {chapter}{\numberline {4}Project Realization}{54}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{54}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Project Results and Showcase}{54}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Main Page Components}{54}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Intern Dashboard Overview}{55}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Sprint Statistics Dashboard}{56}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Intern Sprint Management}{56}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Learning Resources}{58}{subsection.4.2.5}%
+\contentsline {subsection}{\numberline {4.2.6}Project Management}{60}{subsection.4.2.6}%
+\contentsline {subsection}{\numberline {4.2.7}User Profile}{60}{subsection.4.2.7}%
+\contentsline {subsection}{\numberline {4.2.8}Document Management}{61}{subsection.4.2.8}%
+\contentsline {subsection}{\numberline {4.2.9}Project Deployment}{62}{subsection.4.2.9}%
+\contentsline {subsubsection}{Production Architecture Overview}{62}{subsection.4.2.9}%
+\contentsline {subsubsection}{Performance Optimization Strategy}{63}{subsection.4.2.9}%
+\contentsline {subsection}{\numberline {4.2.10}Conclusion}{64}{subsection.4.2.10}%
+\contentsline {chapter}{\numberline {5}Discussion and Future Improvements}{65}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{65}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Current Achievements}{65}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Current Limitations}{65}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Future Improvements}{66}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}VPS Integration for Development Environments}{66}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Enhanced Administrative Dashboard}{66}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Real-Time Assistance in Sprints}{66}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Collaborative Tasking for Group Projects}{67}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}Impact and Benefits}{67}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Summary}{67}{section.5.6}%
+\contentsline {chapter}{General Conclusion and Perspectives}{68}{chapter*.9}%
+\contentsline {chapter}{Appendix B: Glossary}{70}{appendix*.10}%

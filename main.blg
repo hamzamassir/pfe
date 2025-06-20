@@ -1,0 +1,71 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: frontmatter/dedication.aux
+A level-1 auxiliary file: frontmatter/acknowledgement.aux
+A level-1 auxiliary file: frontmatter/abstract.aux
+A level-1 auxiliary file: frontmatter/summary.aux
+A level-1 auxiliary file: frontmatter/acronyms.aux
+A level-1 auxiliary file: sections/Introduction/introduction.aux
+A level-1 auxiliary file: sections/Chapter1-General_Context/chapter1_context_company.aux
+A level-1 auxiliary file: sections/Chapter2-Main_Project_Design/chapter2_main_project_design.aux
+A level-1 auxiliary file: sections/Chapter3-Main_Project_Implementation/chapter3_main_project_implementation.aux
+A level-1 auxiliary file: sections/Chapter4-Main_Project_Results/chapter4_main_project_results.aux
+A level-1 auxiliary file: sections/Chapter6-Discussion_and_Future_Imporvements/chapter6_technical_challenges.aux
+A level-1 auxiliary file: sections/Conclusion/conclusion.aux
+A level-1 auxiliary file: sections/Reflection/reflection.aux
+A level-1 auxiliary file: appendix2.aux
+The style file: unsrtnat.bst
+Database file #1: bibliography.bib
+Warning--entry type for "dries2019headless" isn't style-file defined
+--line 1 of file bibliography.bib
+Warning--entry type for "geeksforgeeks2025sdlc" isn't style-file defined
+--line 100 of file bibliography.bib
+Warning--entry type for "traefik2025docker" isn't style-file defined
+--line 132 of file bibliography.bib
+Warning--entry type for "void2025clients" isn't style-file defined
+--line 140 of file bibliography.bib
+Warning--entry type for "owasp2025" isn't style-file defined
+--line 148 of file bibliography.bib
+You've used 6 entries,
+            2481 wiz_defined-function locations,
+            593 strings with 5794 characters,
+and the built_in function-call counts, 1587 in all, are:
+= -- 133
+> -- 42
+< -- 6
++ -- 24
+- -- 12
+* -- 67
+:= -- 251
+add.period$ -- 19
+call.type$ -- 6
+change.case$ -- 11
+chr.to.int$ -- 6
+cite$ -- 6
+duplicate$ -- 89
+empty$ -- 181
+format.name$ -- 18
+if$ -- 345
+int.to.chr$ -- 1
+int.to.str$ -- 7
+missing$ -- 2
+newline$ -- 39
+num.names$ -- 18
+pop$ -- 71
+preamble$ -- 1
+purify$ -- 6
+quote$ -- 0
+skip$ -- 70
+stack$ -- 0
+substring$ -- 12
+swap$ -- 12
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 39
+warning$ -- 0
+while$ -- 12
+width$ -- 0
+write$ -- 81
+(There were 5 warnings)

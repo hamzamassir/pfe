@@ -1,0 +1,50 @@
+% frontmatter/titlepage.tex
+\begin{titlepage}
+  \centering
+
+  % Header
+  {\small \textbf{Kingdom of Morocco}\\
+  Ministry of Higher Education, Scientific Research \& Innovation}\\[1em]
+  {\small \bfseries École Nationale Supérieure d'Arts et Métiers -- Casablanca}\\[2em]
+
+  % Logo (place your logo at frontmatter/esi_logo.png or adjust path)
+  \IfFileExists{frontmatter/esi_logo.png}{%
+    \includegraphics[height=3cm]{frontmatter/esi_logo.png}
+  }{}
+
+  \vfill
+
+  % Title
+  {\LARGE \bfseries Final-Year Internship Report}\\[1em]
+  {\Large Creation of a CI/CD Pipeline and Development of an Intern Management Platform}\\[2em]
+
+  % Technologies subtitle
+  {\large \textit{Technologies: PHP, Docker, Headless Drupal, React, Next.js}}\\[3em]
+
+  % Author & Supervisors
+  \begin{minipage}{0.45\textwidth}
+    \raggedright
+    {\large \emph{Prepared by:}\\
+    \textsc{HAMZA MASSIR}\\
+    \vspace{0.5em}
+    Artificial Intelligence and Computer Science State Engineer, ENSAM Casablanca}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \raggedleft
+    {\large \emph{Supervised by:}\\
+    Dr. Mustapha Hain \\ (ENSAM Casablanca)\\[0.5em]
+    Mr. Hamza Bahlaouane \\ (VOID Digital Agency)}
+  \end{minipage}
+
+  \vfill
+
+  % Submission info
+  {\large Submitted on \textbf{<Day Month Year>}}\\[1em]
+  {\large Location: Casablanca, Morocco}
+
+  \vfill
+
+  % Cohort
+  {\large Cohort: 2024--2025}
+\end{titlepage}

@@ -1,0 +1,39 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{OWASP Foundation}(2025)]{owasp2025}
+{OWASP Foundation}.
+\newblock Owasp top ten web application security risks, 2025.
+\newblock URL \url{https://owasp.org/www-project-top-ten/}.
+
+\bibitem[{VOID Digital Agency}(2025)]{void2025clients}
+{VOID Digital Agency}.
+\newblock Clients - Études de cas marketing digital, 2025.
+\newblock URL \url{https://void.fr/fr/etude-de-cas-marketing-digital}.
+
+\bibitem[{GeeksforGeeks}(2025)]{geeksforgeeks2025sdlc}
+{GeeksforGeeks}.
+\newblock Software development life cycle (sdlc), 2025.
+\newblock URL \url{https://www.geeksforgeeks.org/software-engineering/software-development-life-cycle-sdlc/}.
+
+\bibitem[Newman(2015)]{newman2015building}
+Sam Newman.
+\newblock \emph{Building Microservices: Designing Fine-Grained Systems}.
+\newblock O'Reilly Media, 2015.
+\newblock ISBN 978-1491950357.
+
+\bibitem[Buytaert(2019)]{dries2019headless}
+Dries Buytaert.
+\newblock Headless cms: Rest vs json:api vs graphql.
+\newblock https://dri.es/headless-cms-rest-vs-jsonapi-vs-graphql, 2019.
+
+\bibitem[{Traefik}(2025)]{traefik2025docker}
+{Traefik}.
+\newblock Traefik docker provider, 2025.
+\newblock URL \url{https://doc.traefik.io/traefik/providers/docker/}.
+
+\end{thebibliography}

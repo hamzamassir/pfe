@@ -1,0 +1,729 @@
+\appendix
+\chapter*{Appendix C: Technical Details}
+\addcontentsline{toc}{chapter}{Appendix C: Technical Details}
+\label{appendix:technical_details}
+
+
+
+\section{Docker Configuration Files}
+\label{appendix:docker_configs}
+
+\subsection{Frontend Development Docker Configuration}
+\label{appendix:frontend_docker_dev}
+
+\begin{lstlisting}[caption={Frontend Development Docker Configuration}, captionpos=b, breaklines=true]
+version: "3.4"
+services:
+  cache:
+    container_name: "${PROJECT_NAME}_frontend_cache"
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    depends_on:
+      - cache
+    environment:
+      REDIS_HOSTS: "${PROJECT_NAME}_frontend_cache"
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      HTTP_USER: root
+      HTTP_PASSWORD: root
+    ports:
+      - 8081:8081
+
+volumes:
+  cache:
+    driver: local
+\end{lstlisting}
+
+\subsection{Backend Development Docker Configuration}
+\label{appendix:backend_docker_dev}
+
+
+\begin{lstlisting}[caption={Backend Development Docker Architecture}, captionpos=b, breaklines=true]
+version: "3.4"
+services:
+  php:
+    container_name: "${PROJECT_NAME}_php"
+    build:
+      context: ./
+      dockerfile: .docker/php/Dockerfile
+    environment:
+      IS_DOCKER: "true"
+      DOCKER_DB_NAME: "${PROJECT_NAME}_db"
+      DOCKER_DB_USER: "${PROJECT_NAME}_user"
+      DOCKER_DB_PASSWORD: "123456"
+      DOCKER_DB_HOST: "${PROJECT_NAME}_db"
+      FRONTEND_URL: "http://host.docker.internal:3000"
+    depends_on:
+      - db
+      - memcached
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/php/default.ini:/etc/php81/conf.d/custom.ini:ro
+    ports:
+      - "8080:80"
+
+  db:
+    container_name: "${PROJECT_NAME}_db"
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: "${PROJECT_NAME}_db"
+      MYSQL_USER: "${PROJECT_NAME}_user"
+      MYSQL_PASSWORD: "123456"
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    container_name: "${PROJECT_NAME}_phpmyadmin"
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: "${PROJECT_NAME}_db"
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+
+  memcached:
+    container_name: "${PROJECT_NAME}_memcached"
+    image: memcached:1.6-alpine
+    ports:
+      - "11211:11211"
+
+  mailhog:
+    container_name: "${PROJECT_NAME}_mailhog"
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+volumes:
+  dbdata:
+    driver: local
+\end{lstlisting}
+
+\subsection{Frontend Production Docker Configuration}
+\label{appendix:frontend_docker_prod}
+
+\begin{lstlisting}[caption={Frontend Production Docker Configuration}, captionpos=b, breaklines=true]
+version: "3.4"
+services:
+  proxy:
+    image: vactory/nginx-lua:2.4
+    environment:
+      RUNTIME_UPSTREAM_NEXT_JS_BACKEND: "${PROJECT_NAME}_frontend_app:3000"
+    depends_on:
+      - starter
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_https.rule=Host(`${APP_DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_https.tls.certresolver=k8spreprodchallenge"
+      - "traefik.http.routers.${PROJECT_NAME}_https.entrypoints=websecure"
+    networks:
+      - traefik
+
+  starter:
+    container_name: "${PROJECT_NAME}_frontend_app"
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile.easypanel.nextjs
+      target: runner_starter
+    environment:
+      REDIS_HOST: "${PROJECT_NAME}_frontend_cache"
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      DRUPAL_BASE_URL: "https://api.${PROJECT_BASE_DOMAIN}"
+    volumes:
+      - frontendAppDB:/app/apps/${APP_NAME}/database
+    depends_on:
+      - cache
+    networks:
+      - traefik
+
+  ui:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile.easypanel.storybook
+      target: runner_ui
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_ui_https.rule=Host(`ui.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_ui_https.tls.certresolver=k8spreprodchallenge"
+    networks:
+      - traefik
+
+  cache:
+    container_name: "${PROJECT_NAME}_frontend_cache"
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+    networks:
+      - traefik
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    depends_on:
+      - cache
+    environment:
+      REDIS_HOSTS: "${PROJECT_NAME}_frontend_cache"
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      HTTP_USER: root
+      HTTP_PASSWORD: root
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_redis_https.rule=Host(`redis.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_redis_https.tls.certresolver=k8spreprodchallenge"
+    networks:
+      - traefik
+
+volumes:
+  frontendAppDB:
+    driver: local
+  cache:
+    driver: local
+
+networks:
+  traefik:
+    external: true
+\end{lstlisting}
+
+\subsection{Backend Production Docker Configuration}
+\label{appendix:backend_docker_prod}
+
+
+\begin{lstlisting}[caption={Backend Production Configuration}, captionpos=b, breaklines=true]
+version: "3.4"
+services:
+  php:
+    container_name: "${PROJECT_NAME}_php"
+    build:
+      context: ./
+      dockerfile: .docker/php/Dockerfile
+    environment:
+      IS_DOCKER: "true"
+      DOCKER_DB_NAME: "${PROJECT_NAME}_db"
+      DOCKER_DB_USER: "${PROJECT_NAME}_user"
+      DOCKER_DB_PASSWORD: "${DB_PASSWORD}"
+      DOCKER_DB_HOST: "${PROJECT_NAME}_db"
+      FRONTEND_URL: "https://${PROJECT_BASE_DOMAIN}"
+      MEMCACHED_HOST: "${PROJECT_NAME}_memcached"
+    volumes:
+      - public_files_data:/var/www/html/sites/default/files
+      - private_files_data:/var/www/html/sites/default/private
+      - backup_db:/var/www/backup
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_https.rule=Host(`backend.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_https.tls.certresolver=k8spreprodchallenge"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_api_https.rule=Host(`api.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_api_https.tls.certresolver=k8spreprodchallenge"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_media_https.rule=Host(`media.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.drupal_${PROJECT_NAME}_media_https.tls.certresolver=k8spreprodchallenge"
+    depends_on:
+      - db
+      - memcached
+    networks:
+      - traefik
+
+  db:
+    container_name: "${PROJECT_NAME}_db"
+    build:
+      context: .
+      dockerfile: .docker/mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${PROJECT_NAME}_db"
+      MYSQL_USER: "${PROJECT_NAME}_user"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - traefik
+
+  phpmyadmin:
+    container_name: "${PROJECT_NAME}_phpmyadmin"
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: "${PROJECT_NAME}_db"
+      PMA_USER: root
+      PMA_PASSWORD: "${DB_ROOT_PASSWORD}"
+      PMA_ABSOLUTE_URI: "https://phpmyadmin.${PROJECT_BASE_DOMAIN}/"
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_phpmyadmin_https.rule=Host(`phpmyadmin.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_phpmyadmin_https.tls.certresolver=k8spreprodchallenge"
+      - "traefik.http.routers.${PROJECT_NAME}_phpmyadmin_https.middlewares=auth"
+    networks:
+      - traefik
+
+  memcached:
+    container_name: "${PROJECT_NAME}_memcached"
+    image: memcached:1.6-alpine
+    networks:
+      - traefik
+
+  filebrowser:
+    container_name: "${PROJECT_NAME}_filebrowser"
+    image: filebrowser/filebrowser
+    volumes:
+      - private_files_data:/srv/private
+      - public_files_data:/srv/public
+      - backup_db:/srv/backup/database
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_files_https.rule=Host(`files.${PROJECT_BASE_DOMAIN}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_files_https.tls.certresolver=k8spreprodchallenge"
+      - "traefik.http.routers.${PROJECT_NAME}_files_https.middlewares=auth"
+    networks:
+      - traefik
+
+volumes:
+  dbdata:
+    driver: local
+  public_files_data:
+    driver: local
+  private_files_data:
+    driver: local
+  backup_db:
+    driver: local
+
+networks:
+  traefik:
+    external: true
+\end{lstlisting}
+
+\section{Multi-Stage Docker Build Implementation}
+\label{appendix:multistage_docker}
+
+
+\begin{lstlisting}[caption={Multi-Stage Docker Build Process}, captionpos=b, breaklines=true]
+# Stage 1: Workspace preparation
+FROM registry.access.redhat.com/ubi9/nodejs-22:9.5-1746003035 AS workspace
+WORKDIR /app
+COPY ["package.json", "yarn.lock", "./"]
+COPY packages ./packages
+COPY apps ./apps
+RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+
+# Stage 2: Dependency installation
+FROM registry.access.redhat.com/ubi9/nodejs-22:9.5-1746003035 AS deps
+WORKDIR /app
+RUN npm install yarn@1.22.19 --global
+COPY --from=workspace /app ./
+RUN yarn install --frozen-lockfile
+
+# Stage 3: Application building
+FROM registry.access.redhat.com/ubi9/nodejs-22:9.5-1746003035 AS builder_starter
+WORKDIR /app
+COPY --from=deps /app ./
+COPY . .
+RUN NODE_ENV=production yarn workspace ${APP_NAME} build
+
+# Stage 4: Production runtime
+FROM registry.access.redhat.com/ubi9/nodejs-22:9.5-1746003035 AS runner_starter
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder_starter /app/apps/${APP_NAME}/.next/standalone ./
+COPY --from=builder_starter /app/apps/${APP_NAME}/.next/static ./apps/${APP_NAME}/.next/static
+COPY --from=builder_starter /app/apps/${APP_NAME}/public ./apps/${APP_NAME}/public
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "/app/apps/$APP_FOLDER/server.js"]
+\end{lstlisting}
+
+\section{Frontend Implementation Code}
+\label{appendix:frontend_code}
+
+\subsection{Webpack Plugin Architecture}
+\label{appendix:webpack_plugin}
+
+\begin{lstlisting}[caption={Complete Webpack Widget Plugin Implementation}, captionpos=b, breaklines=true]
+const path = require('path');
+const fs = require('fs');
+
+class WidgetsPlugin {
+  constructor(options = {}) {
+    this.options = {
+      pattern: '**/*Widget.jsx',
+      outputFile: 'widgets.js',
+      ...options
+    };
+  }
+
+  apply(compiler) {
+    compiler.hooks.compilation.tap('WidgetsPlugin', (compilation) => {
+      compilation.hooks.additionalAssets.tapAsync('WidgetsPlugin', (callback) => {
+        this.generateWidgetMapping(compilation, callback);
+      });
+    });
+  }
+
+  generateWidgetMapping(compilation, callback) {
+    const glob = require('glob');
+    const widgetFiles = glob.sync(this.options.pattern, {
+      cwd: compilation.options.context
+    });
+
+    const mappings = [];
+    const imports = [];
+
+    widgetFiles.forEach((filePath) => {
+      try {
+        const fullPath = path.resolve(compilation.options.context, filePath);
+        const config = this.extractWidgetConfig(fullPath);
+        
+        if (config && config.id) {
+          if (config.lazy === true) {
+            mappings.push(`"${config.id}": dynamic(() => import("${filePath}"))`);
+          } else {
+            const exportName = config.id
+              .replaceAll(":", "__")
+              .replaceAll("-", "_");
+            const exportNameDefault = exportName.charAt(0).toUpperCase() + exportName.slice(1);
+            
+            imports.push(`import ${exportNameDefault} from "${filePath}"`);
+            mappings.push(`"${config.id}": ${exportNameDefault}`);
+          }
+        }
+      } catch (error) {
+        console.warn(`Failed to process widget file ${filePath}:`, error.message);
+      }
+    });
+
+    const outputContent = `
+import dynamic from "next/dynamic";
+${imports.join('\n')}
+
+export const Widgets = {
+  ${mappings.join(',\n  ')}
+};
+
+export default Widgets;
+`;
+
+    const outputPath = path.resolve(
+      compilation.options.output.path,
+      this.options.outputFile
+    );
+
+    fs.writeFileSync(outputPath, outputContent);
+    callback();
+  }
+
+  extractWidgetConfig(filePath) {
+    try {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const configMatch = content.match(/export\s+const\s+config\s*=\s*({[\s\S]*?});/);
+      
+      if (configMatch) {
+        // Simple config extraction - in a real implementation, 
+        // you might want to use a proper JS parser
+        const configStr = configMatch[1];
+        return eval(`(${configStr})`);
+      }
+    } catch (error) {
+      console.warn(`Failed to extract config from ${filePath}:`, error.message);
+    }
+    
+    return null;
+  }
+}
+
+module.exports = WidgetsPlugin;
+
+// Usage in webpack.config.js
+const WidgetsPlugin = require('./plugins/WidgetsPlugin');
+
+module.exports = {
+  // ... other webpack config
+  plugins: [
+    new WidgetsPlugin({
+      pattern: 'components/**/*Widget.jsx',
+      outputFile: 'widgets.js'
+    }),
+    // ... other plugins
+  ]
+};
+\end{lstlisting}
+
+\subsection{Offline Mode Implementation}
+\label{appendix:offline_mode}
+
+\begin{lstlisting}[caption={Offline Mode Implementation}, captionpos=b, breaklines=true]
+// lib/offline-manager.js
+import { createContext, useContext, useState, useEffect } from 'react';
+
+const OfflineContext = createContext();
+
+export const OfflineProvider = ({ children }) => {
+  const [isOffline, setIsOffline] = useState(false);
+  const [cachedData, setCachedData] = useState(new Map());
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // Initial state
+    setIsOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const value = {
+    isOffline,
+    cachedData,
+    setCachedData
+  };
+
+  return (
+    <OfflineContext.Provider value={value}>
+      {children}
+    </OfflineContext.Provider>
+  );
+};
+
+export const useOffline = () => {
+  const context = useContext(OfflineContext);
+  if (!context) {
+    throw new Error('useOffline must be used within OfflineProvider');
+  }
+  return context;
+};
+
+// lib/api-with-offline.js
+import axios from 'axios';
+import { useOffline } from './offline-manager';
+
+class ApiWithOffline {
+  constructor() {
+    this.axios = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
+    });
+
+    this.setupInterceptors();
+  }
+
+  setupInterceptors() {
+    // Request interceptor
+    this.axios.interceptors.request.use(
+      (config) => {
+        // Add timestamp for cache validation
+        config.metadata = { startTime: new Date() };
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Response interceptor
+    this.axios.interceptors.response.use(
+      (response) => {
+        // Cache successful responses
+        this.cacheResponse(response.config.url, response.data);
+        return response;
+      },
+      async (error) => {
+        const { config } = error;
+        
+        // If network error and we have cached data, return it
+        if (this.isNetworkError(error) && config.url) {
+          const cachedData = this.getCachedData(config.url);
+          if (cachedData) {
+            console.warn('Network error, serving cached data:', config.url);
+            return {
+              data: cachedData,
+              status: 200,
+              statusText: 'OK (Cached)',
+              headers: {},
+              config,
+              fromCache: true
+            };
+          }
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  isNetworkError(error) {
+    return (
+      error.code === 'NETWORK_ERROR' ||
+      error.message === 'Network Error' ||
+      !error.response
+    );
+  }
+
+  cacheResponse(url, data) {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const cacheKey = `api_cache_${btoa(url)}`;
+        const cacheData = {
+          data,
+          timestamp: Date.now(),
+          url
+        };
+        
+        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+        
+        // Also store in Redis if available
+        this.storeInRedis(url, data);
+      } catch (error) {
+        console.warn('Failed to cache response:', error);
+      }
+    }
+  }
+
+  getCachedData(url) {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const cacheKey = `api_cache_${btoa(url)}`;
+        const cached = localStorage.getItem(cacheKey);
+        
+        if (cached) {
+          const parsedCache = JSON.parse(cached);
+          const isExpired = Date.now() - parsedCache.timestamp > 3600000; // 1 hour
+          
+          if (!isExpired) {
+            return parsedCache.data;
+          } else {
+            localStorage.removeItem(cacheKey);
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to retrieve cached data:', error);
+      }
+    }
+    
+    return null;
+  }
+
+  async storeInRedis(url, data) {
+    try {
+      await fetch('/api/cache', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          key: url,
+          data,
+          ttl: 3600 // 1 hour
+        })
+      });
+    } catch (error) {
+      console.warn('Failed to store in Redis:', error);
+    }
+  }
+
+  async get(url, config = {}) {
+    return this.axios.get(url, config);
+  }
+
+  async post(url, data, config = {}) {
+    return this.axios.post(url, data, config);
+  }
+
+  async put(url, data, config = {}) {
+    return this.axios.put(url, data, config);
+  }
+
+  async delete(url, config = {}) {
+    return this.axios.delete(url, config);
+  }
+}
+
+export const apiWithOffline = new ApiWithOffline();
+
+// components/OfflineIndicator.jsx
+import { useOffline } from '../lib/offline-manager';
+
+export const OfflineIndicator = () => {
+  const { isOffline } = useOffline();
+
+  if (!isOffline) return null;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 bg-yellow-500 text-black p-2 text-center z-50">
+      <span className="font-medium">
+        ⚠️ You're currently offline. Showing cached content.
+      </span>
+    </div>
+  );
+};
+
+// pages/api/cache.js (Next.js API route)
+import Redis from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL);
+
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { key, data, ttl = 3600 } = req.body;
+    
+    try {
+      const cacheKey = `offline_cache:${Buffer.from(key).toString('base64')}`;
+      await redis.setex(cacheKey, ttl, JSON.stringify(data));
+      
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error('Redis cache error:', error);
+      res.status(500).json({ error: 'Failed to cache data' });
+    }
+  } else if (req.method === 'GET') {
+    const { key } = req.query;
+    
+    try {
+      const cacheKey = `offline_cache:${Buffer.from(key).toString('base64')}`;
+      const cached = await redis.get(cacheKey);
+      
+      if (cached) {
+        res.status(200).json({ data: JSON.parse(cached) });
+      } else {
+        res.status(404).json({ error: 'Data not found in cache' });
+      }
+    } catch (error) {
+      console.error('Redis retrieval error:', error);
+      res.status(500).json({ error: 'Failed to retrieve cached data' });
+    }
+  } else {
+    res.setHeader('Allow', ['GET', 'POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+}
+\end{lstlisting}
+
+This appendix provides all the technical implementation details that support the main chapters of this report, ensuring complete documentation of the platform's architecture and functionality.
+
